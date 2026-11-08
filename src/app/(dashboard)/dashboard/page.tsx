@@ -13,44 +13,46 @@ import {
 } from "lucide-react";
 
 const stats = [
-  { title: "إجمالي المرضى", value: "1,248", change: "+12%", icon: Users, color: "text-blue-600" },
-  { title: "مرضى جدد هذا الشهر", value: "87", change: "+23%", icon: UserPlus, color: "text-emerald-600" },
-  { title: "مواعيد اليوم", value: "24", change: "8 مكتملة", icon: Calendar, color: "text-indigo-600" },
-  { title: "المواعيد القادمة", value: "56", change: "خلال 7 أيام", icon: CalendarCheck, color: "text-cyan-600" },
-  { title: "مواعيد ملغاة", value: "5", change: "هذا الأسبوع", icon: CalendarX, color: "text-rose-600" },
-  { title: "علاجات منجزة", value: "312", change: "هذا الشهر", icon: Stethoscope, color: "text-violet-600" },
-  { title: "إيرادات اليوم", value: "$1,850", change: "+8%", icon: DollarSign, color: "text-green-600" },
-  { title: "إيرادات الشهر", value: "$28,400", change: "+15%", icon: TrendingUp, color: "text-teal-600" },
-  { title: "المبالغ المتبقية", value: "$4,320", change: "12 مريض", icon: AlertCircle, color: "text-amber-600" },
-  { title: "صافي الأرباح", value: "$19,870", change: "بعد المصاريف", icon: Activity, color: "text-sky-600" },
+  { title: "إجمالي المرضى", value: "1,248", change: "+12%", icon: Users },
+  { title: "مرضى جدد هذا الشهر", value: "87", change: "+23%", icon: UserPlus },
+  { title: "مواعيد اليوم", value: "24", change: "8 مكتملة", icon: Calendar },
+  { title: "المواعيد القادمة", value: "56", change: "خلال 7 أيام", icon: CalendarCheck },
+  { title: "مواعيد ملغاة", value: "5", change: "هذا الأسبوع", icon: CalendarX },
+  { title: "علاجات منجزة", value: "312", change: "هذا الشهر", icon: Stethoscope },
+  { title: "إيرادات اليوم", value: "$1,850", change: "+8%", icon: DollarSign },
+  { title: "إيرادات الشهر", value: "$28,400", change: "+15%", icon: TrendingUp },
+  { title: "المبالغ المتبقية", value: "$4,320", change: "12 مريض", icon: AlertCircle },
+  { title: "صافي الأرباح", value: "$19,870", change: "بعد المصاريف", icon: Activity },
 ];
 
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">لوحة التحكم</h1>
-        <p className="text-muted-foreground">نظرة عامة على أداء العيادة اليوم</p>
+        <h1 className="text-2xl font-bold tracking-tight text-white">لوحة التحكم</h1>
+        <p className="text-white/45">نظرة عامة على أداء العيادة اليوم</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((stat) => (
-          <Card key={stat.title} className="overflow-hidden">
+          <Card key={stat.title} className="border-white/10 bg-white/[0.03]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              <CardTitle className="text-sm font-medium text-white/50">{stat.title}</CardTitle>
+              <stat.icon className="h-5 w-5 text-amber-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground mt-1">{stat.change}</p>
+              <div className="text-2xl font-bold text-white">{stat.value}</div>
+              <p className="mt-1 text-xs text-white/40">{stat.change}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader><CardTitle>آخر المواعيد</CardTitle></CardHeader>
+        <Card className="border-white/10 bg-white/[0.03]">
+          <CardHeader>
+            <CardTitle className="text-white">آخر المواعيد</CardTitle>
+          </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
@@ -59,22 +61,28 @@ export default function DashboardPage() {
                 { patient: "أحمد يوسف", time: "11:45", treatment: "فحص", status: "مؤكد" },
                 { patient: "نور حسن", time: "14:00", treatment: "تبييض", status: "قيد الانتظار" },
               ].map((apt, i) => (
-                <div key={i} className="flex items-center justify-between border-b pb-3 last:border-0">
+                <div
+                  key={i}
+                  className="flex items-center justify-between border-b border-white/5 pb-3 last:border-0"
+                >
                   <div>
-                    <p className="font-medium">{apt.patient}</p>
-                    <p className="text-sm text-muted-foreground">{apt.treatment}</p>
+                    <p className="font-medium text-white">{apt.patient}</p>
+                    <p className="text-sm text-white/40">{apt.treatment}</p>
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-medium">{apt.time}</p>
-                    <span className="text-xs text-muted-foreground">{apt.status}</span>
+                    <p className="text-sm font-medium text-amber-300">{apt.time}</p>
+                    <span className="text-xs text-white/40">{apt.status}</span>
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader><CardTitle>آخر المرضى المسجلين</CardTitle></CardHeader>
+
+        <Card className="border-white/10 bg-white/[0.03]">
+          <CardHeader>
+            <CardTitle className="text-white">آخر المرضى المسجلين</CardTitle>
+          </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
@@ -83,17 +91,25 @@ export default function DashboardPage() {
                 { name: "هبة فادي", phone: "0955 456 789", date: "منذ يومين" },
                 { name: "عمر رامي", phone: "0966 321 654", date: "منذ 3 أيام" },
               ].map((p, i) => (
-                <div key={i} className="flex items-center justify-between border-b pb-3 last:border-0">
+                <div
+                  key={i}
+                  className="flex items-center justify-between border-b border-white/5 pb-3 last:border-0"
+                >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-semibold">
-                      {p.name.split(" ").map((n) => n[0]).join("")}
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500/15 text-sm font-semibold text-amber-300">
+                      {p.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
                     <div>
-                      <p className="font-medium">{p.name}</p>
-                      <p className="text-sm text-muted-foreground">{p.phone}</p>
+                      <p className="font-medium text-white">{p.name}</p>
+                      <p className="text-sm text-white/40" dir="ltr">
+                        {p.phone}
+                      </p>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">{p.date}</span>
+                  <span className="text-xs text-white/40">{p.date}</span>
                 </div>
               ))}
             </div>
