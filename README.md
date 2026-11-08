@@ -1,2 +1,51 @@
-# dental-pro
-DENTAL PRO – Advanced Dental Clinic Management System | نظام إدارة عيادات الأسنان المتقدم - SaaS platform with patients, appointments, dental chart, treatment plans, invoices, inventory
+# DENTAL PRO – Advanced Dental Clinic Management System
+
+منصة SaaS متكاملة واحترافية لإدارة عيادات الأسنان بمستوى الأنظمة الطبية العالمية.
+
+## الحالة الحالية
+
+### ✅ مكتمل
+
+| المكون | التفاصيل |
+|--------|----------|
+| **قاعدة البيانات** | Schema كامل + Multi-tenant + RLS + Triggers + Audit |
+| **التصميم** | Medical Premium + Dark/Light + RTL كامل |
+| **لوحة التحكم** | 10 بطاقات إحصائية + آخر المواعيد والمرضى |
+| **المرضى** | قائمة + بحث + إضافة + **ملف المريض التفصيلي** (6 تبويبات) |
+| **المخطط السني** | تفاعلي بالكامل (FDI) + تعديل الحالات |
+| **المواعيد** | قائمة يومية + حجز جديد + حالات متعددة |
+| **الخطط العلاجية** | قائمة + نسبة السداد + إنشاء خطة |
+| **الفواتير** | جدول + حالات الدفع + إنشاء فاتورة |
+| **المخزون** | جدول + تنبيهات الكمية المنخفضة |
+| **العلاجات** | كتالوج مصنف + أسعار |
+| **تسجيل الدخول** | واجهة جاهزة |
+
+### 🔄 التالي
+
+- ربط Supabase الحقيقي (استبدال Mock Data)
+- صفحة التقارير المتقدمة + الرسوم البيانية
+- بوابة الحجز الخارجية للمرضى
+- نظام الصلاحيات حسب الدور
+- طباعة PDF للفواتير والخطط
+
+## الصفحات المتاحة
+
+- `/login`
+- `/dashboard`
+- `/patients`
+- `/patients/[id]` ← ملف المريض الكامل
+- `/appointments`
+- `/dental-chart`
+- `/treatment-plans`
+- `/treatments`
+- `/invoices`
+- `/inventory`
+
+## التشغيل
+
+1. أنشئ مشروع Supabase
+2. نفّذ `supabase/migrations/001_initial_schema.sql`
+3. انسخ `.env.example` → `.env.local`
+4. `npm install && npm run dev`
+
+Built for modern dental clinics.
