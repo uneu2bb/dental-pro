@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
@@ -20,7 +20,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
@@ -49,14 +48,14 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex lg:w-64 lg:flex-col border-l bg-card/80 backdrop-blur-sm">
-      <div className="flex h-16 items-center gap-3 border-b px-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-lg font-bold text-white shadow-md shadow-cyan-500/20">
+    <aside className="hidden lg:flex lg:w-64 lg:flex-col border-l border-white/5 bg-[#0a0a0a]">
+      <div className="flex h-16 items-center gap-3 border-b border-white/5 px-5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl gold-gradient text-lg font-bold text-black">
           D
         </div>
         <div>
-          <h1 className="font-bold leading-none tracking-tight">DENTAL PRO</h1>
-          <p className="text-[11px] text-muted-foreground">نظام إدارة العيادات</p>
+          <h1 className="font-bold leading-none tracking-tight text-white">DENTAL PRO</h1>
+          <p className="text-[11px] text-white/40">نظام إدارة العيادات</p>
         </div>
       </div>
 
@@ -71,21 +70,21 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
                 isActive
-                  ? "bg-gradient-to-l from-cyan-500/15 to-blue-600/10 text-cyan-700 dark:text-cyan-300 shadow-sm"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  ? "bg-amber-500/15 text-amber-300"
+                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
               )}
             >
-              <item.icon className={cn("h-4.5 w-4.5", isActive && "text-cyan-600 dark:text-cyan-400")} />
+              <item.icon className={cn("h-4 w-4", isActive && "text-amber-400")} />
               {item.name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t p-3">
+      <div className="border-t border-white/5 p-3">
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive"
+          className="w-full justify-start gap-3 text-white/40 hover:bg-red-500/10 hover:text-red-400"
           onClick={handleLogout}
         >
           <LogOut className="h-4 w-4" />

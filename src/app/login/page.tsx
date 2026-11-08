@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,13 +28,12 @@ export default function LoginPage() {
       });
       if (authError) throw authError;
 
-      // Check if user is suspended
       if (data.user) {
         const { data: profile } = await supabase
           .from("profiles")
-          .select("is_active, role")
+          .select("is_active")
           .eq("id", data.user.id)
-          .single();
+          .maybeSingle();
 
         if (profile && profile.is_active === false) {
           await supabase.auth.signOut();
@@ -53,27 +52,28 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0a1628]">
-      {/* Background glow */}
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#050505] px-4">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 right-1/4 h-96 w-96 rounded-full bg-cyan-500/20 blur-[120px]" />
-        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-blue-600/15 blur-[100px]" />
+        <div className="absolute left-1/2 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-amber-500/15 blur-[100px]" />
       </div>
 
-      <Card className="relative w-full max-w-md border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl">
-        <CardHeader className="space-y-3 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 text-2xl font-bold text-white shadow-lg shadow-cyan-500/30">
-            D
-          </div>
-          <CardTitle className="text-2xl font-bold tracking-tight text-white">DENTAL PRO</CardTitle>
-          <CardDescription className="text-slate-400">
-            نظام إدارة عيادات الأسنان الاحترافي
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="relative w-full max-w-md">
+        <div className="mb-8 text-center">
+          <Link href="/" className="inline-flex items-center gap-2">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl gold-gradient text-lg font-bold text-black">
+              D
+            </div>
+          </Link>
+          <h1 className="mt-4 text-2xl font-bold text-white">DENTAL PRO</h1>
+          <p className="mt-1 text-sm text-white/45">دخول لوحة تحكم العيادة</p>
+        </div>
+
+        <div className="glass-card p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-300">البريد الإلكتروني</Label>
+              <Label htmlFor="email" className="text-white/70">
+                البريد الإلكتروني
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -82,11 +82,13 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-white/10 bg-white/5 text-white placeholder:text-slate-500 focus-visible:ring-cyan-500/50"
+                className="border-white/10 bg-white/5 text-white placeholder:text-white/30"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-300">كلمة المرور</Label>
+              <Label htmlFor="password" className="text-white/70">
+                كلمة المرور
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -96,7 +98,7 @@ export default function LoginPage() {
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-white/10 bg-white/5 text-white placeholder:text-slate-500 focus-visible:ring-cyan-500/50"
+                className="border-white/10 bg-white/5 text-white placeholder:text-white/30"
               />
             </div>
 
@@ -108,18 +110,18 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-gradient-to-l from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25 hover:from-cyan-400 hover:to-blue-500"
               disabled={loading}
+              className="w-full gold-gradient font-bold text-black hover:opacity-90"
             >
               {loading ? "جاري الدخول..." : "تسجيل الدخول"}
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-slate-500">
+          <p className="mt-6 text-center text-xs text-white/35">
             الحسابات تُنشأ من لوحة التحكم بواسطة المدير فقط
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
