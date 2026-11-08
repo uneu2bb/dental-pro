@@ -37,9 +37,7 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <Card key={stat.title} className="overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
               <stat.icon className={`h-5 w-5 ${stat.color}`} />
             </CardHeader>
             <CardContent>
@@ -52,9 +50,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <CardHeader>
-            <CardTitle>آخر المواعيد</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle>آخر المواعيد</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
@@ -77,11 +73,8 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader>
-            <CardTitle>آخر المرضى المسجلين</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle>آخر المرضى المسجلين</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
