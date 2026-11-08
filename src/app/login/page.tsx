@@ -1,20 +1,76 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [mode, setMode] = useState<"login" | "register">("login");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      window.location.href = "/dashboard";
-    }, 1000);
+    setError("");
+
+    try {
+      const supabase = createClient();
+
+      if (mode === "login") {
+        const { error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (authError) throw authError;
+      } else {
+        const { data, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (authError) throw authError;
+
+        // Create profile + clinic for new user (first admin)
+        if (data.user) {
+          const clinicName = "عيادتي";
+          const slug = `clinic-${data.user.id.slice(0, 8)}`;
+
+          const { data: clinic, error: clinicError } = await supabase
+            .from("clinics")
+            .insert({ name: clinicName, slug, currency: "USD", timezone: "Asia/Damascus" })
+            .select("id")
+            .single();
+
+          if (!clinicError && clinic) {
+            await supabase.from("profiles").insert({
+              id: data.user.id,
+              clinic_id: clinic.id,
+              full_name: email.split("@")[0],
+              role: "clinic_admin",
+            });
+
+            await supabase.from("clinic_settings").insert({
+              clinic_id: clinic.id,
+            });
+          }
+        }
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "حدث خطأ، حاول مرة أخرى";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,21 +84,78 @@ export default function LoginPage() {
           <CardDescription>نظام إدارة عيادات الأسنان المتقدم</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">البريد الإلكتروني</Label>
-              <Input id="email" type="email" placeholder="doctor@clinic.com" dir="ltr" required />
+              <Input
+                id="email"
+                type="email"
+                placeholder="doctor@clinic.com"
+                dir="ltr"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">كلمة المرور</Label>
-              <Input id="password" type="password" placeholder="••••••••" dir="ltr" required />
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                dir="ltr"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
+
+            {error && (
+              <div className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </div>
+            )}
+
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "جاري الدخول..." : "تسجيل الدخول"}
+              {loading
+                ? "جاري المعالجة..."
+                : mode === "login"
+                ? "تسجيل الدخول"
+                : "إنشاء حساب"}
             </Button>
           </form>
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            نظام آمن ومحمي بتقنيات التشفير الحديثة
+
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            {mode === "login" ? (
+              <>
+                ليس لديك حساب؟{" "}
+                <button
+                  type="button"
+                  className="text-primary font-medium hover:underline"
+                  onClick={() => {
+                    setMode("register");
+                    setError("");
+                  }}
+                >
+                  سجّل الآن
+                </button>
+              </>
+            ) : (
+              <>
+                لديك حساب؟{" "}
+                <button
+                  type="button"
+                  className="text-primary font-medium hover:underline"
+                  onClick={() => {
+                    setMode("login");
+                    setError("");
+                  }}
+                >
+                  تسجيل الدخول
+                </button>
+              </>
+            )}
           </p>
         </CardContent>
       </Card>
