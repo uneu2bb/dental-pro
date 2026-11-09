@@ -34,11 +34,12 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const isPublic =
+    path === "/" ||
     path.startsWith("/login") ||
     path.startsWith("/register") ||
     path.startsWith("/booking") ||
     path.startsWith("/api") ||
-    path === "/";
+    path.startsWith("/secret-panel");
 
   if (!user && !isPublic) {
     const redirectUrl = request.nextUrl.clone();
