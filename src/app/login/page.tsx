@@ -20,7 +20,6 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
       const supabase = createClient();
       const { data, error: authError } = await supabase.auth.signInWithPassword({
@@ -35,99 +34,97 @@ export default function LoginPage() {
           .select("is_active")
           .eq("id", data.user.id)
           .maybeSingle();
-
         if (profile && profile.is_active === false) {
           await supabase.auth.signOut();
-          throw new Error("هذا الحساب موقوف مؤقتاً. تواصل مع إدارة العيادة.");
+          throw new Error("هذا الحساب موقوف مؤقتاً.");
         }
       }
 
       router.push("/dashboard");
       router.refresh();
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "بيانات الدخول غير صحيحة";
-      setError(message);
+      setError(err instanceof Error ? err.message : "بيانات الدخول غير صحيحة");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#050505] px-4">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-amber-500/15 blur-[100px]" />
+    <div className="flex min-h-screen">
+      <div className="hidden w-1/2 flex-col justify-between bg-[hsl(var(--primary))] p-10 text-white lg:flex">
+        <div>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--teal))] text-lg font-bold">
+            D
+          </div>
+          <h2 className="mt-8 text-3xl font-bold leading-tight">
+            نظام إدارة
+            <br />
+            عيادات الأسنان
+          </h2>
+          <p className="mt-4 max-w-sm text-sm text-white/70">
+            منصة طبية متكاملة للمرضى والمواعيد والعلاجات والفواتير والمخزون.
+          </p>
+        </div>
+        <p className="text-xs text-white/40">DENTAL PRO © {new Date().getFullYear()}</p>
       </div>
 
-      <div className="relative w-full max-w-md">
-        <div className="mb-8 text-center">
-          <SecretLogoTrigger className="inline-flex items-center gap-2 outline-none">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl gold-gradient text-lg font-bold text-black">
-              D
-            </div>
-          </SecretLogoTrigger>
-          <h1 className="mt-4 text-2xl font-bold text-white">DENTAL PRO</h1>
-          <p className="mt-1 text-sm text-white/45">دخول لوحة تحكم العيادة</p>
-        </div>
+      <div className="flex w-full flex-col items-center justify-center bg-background px-6 lg:w-1/2">
+        <div className="w-full max-w-sm">
+          <div className="mb-8 text-center lg:text-right">
+            <SecretLogoTrigger className="mx-auto mb-4 inline-flex lg:mx-0">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[hsl(var(--primary))] text-lg font-bold text-white lg:hidden">
+                D
+              </div>
+            </SecretLogoTrigger>
+            <h1 className="text-2xl font-bold text-[hsl(var(--primary))]">تسجيل الدخول</h1>
+            <p className="mt-1 text-sm text-muted-foreground">حسابات الموظفين فقط</p>
+          </div>
 
-        <div className="glass-card p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-white/70">
-                البريد الإلكتروني
-              </Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="email">البريد الإلكتروني</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@clinic.com"
                 dir="ltr"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-white/10 bg-white/5 text-white placeholder:text-white/30"
+                placeholder="admin@clinic.com"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-white/70">
-                كلمة المرور
-              </Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="password">كلمة المرور</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
                 dir="ltr"
                 required
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-white/10 bg-white/5 text-white placeholder:text-white/30"
               />
             </div>
-
             {error && (
-              <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
                 {error}
               </div>
             )}
-
             <Button
               type="submit"
               disabled={loading}
-              className="w-full gold-gradient font-bold text-black hover:opacity-90"
+              className="w-full bg-[hsl(var(--teal))] hover:bg-[hsl(var(--teal))]/90"
             >
-              {loading ? "جاري الدخول..." : "تسجيل الدخول"}
+              {loading ? "جاري الدخول..." : "دخول"}
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-white/35">
-            الحسابات تُنشأ من لوحة التحكم بواسطة المدير فقط
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            <Link href="/" className="hover:text-[hsl(var(--teal))]">
+              العودة للرئيسية
+            </Link>
           </p>
         </div>
-
-        <p className="mt-6 text-center">
-          <Link href="/" className="text-xs text-white/30 hover:text-white/50">
-            العودة للرئيسية
-          </Link>
-        </p>
       </div>
     </div>
   );
