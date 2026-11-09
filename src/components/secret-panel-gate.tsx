@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  getPanelPassword,
   setPanelPassword,
   unlockPanel,
   verifyPanelPassword,
@@ -81,7 +80,6 @@ export function SecretLogoTrigger({ children, className }: Props) {
       return;
     }
     setPanelPassword(newPw);
-    setError("");
     setMode("enter");
     setPassword("");
     setNewPw("");
@@ -143,7 +141,7 @@ export function SecretLogoTrigger({ children, className }: Props) {
                 </button>
                 <button
                   type="button"
-gradeClassName="w-full text-xs text-white/25 hover:text-white/50"
+                  className="w-full text-xs text-white/25 hover:text-white/50"
                   onClick={() => setOpen(false)}
                 >
                   إلغاء

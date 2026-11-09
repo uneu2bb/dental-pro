@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SecretLogoTrigger } from "@/components/secret-panel-gate";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,11 +60,11 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-md">
         <div className="mb-8 text-center">
-          <Link href="/" className="inline-flex items-center gap-2">
+          <SecretLogoTrigger className="inline-flex items-center gap-2 outline-none">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl gold-gradient text-lg font-bold text-black">
               D
             </div>
-          </Link>
+          </SecretLogoTrigger>
           <h1 className="mt-4 text-2xl font-bold text-white">DENTAL PRO</h1>
           <p className="mt-1 text-sm text-white/45">دخول لوحة تحكم العيادة</p>
         </div>
@@ -121,6 +122,12 @@ export default function LoginPage() {
             الحسابات تُنشأ من لوحة التحكم بواسطة المدير فقط
           </p>
         </div>
+
+        <p className="mt-6 text-center">
+          <Link href="/" className="text-xs text-white/30 hover:text-white/50">
+            العودة للرئيسية
+          </Link>
+        </p>
       </div>
     </div>
   );

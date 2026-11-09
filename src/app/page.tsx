@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { Calendar, Shield, Stethoscope, Users, BarChart3, Package } from "lucide-react";
+import { SecretLogoTrigger } from "@/components/secret-panel-gate";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white">
       <header className="sticky top-0 z-50 border-b border-white/5 bg-black/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <div className="flex items-center gap-2">
+          <SecretLogoTrigger className="flex items-center gap-2 outline-none">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg gold-gradient text-sm font-bold text-black">
               D
             </div>
             <span className="text-lg font-bold tracking-tight">DENTAL PRO</span>
-          </div>
+          </SecretLogoTrigger>
           <nav className="hidden items-center gap-6 text-sm text-white/70 md:flex">
             <a href="#features" className="hover:text-[#e8c547]">
               الميزات
