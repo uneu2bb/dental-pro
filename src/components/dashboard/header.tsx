@@ -1,37 +1,47 @@
 "use client";
 
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, Moon, Search, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const { theme, setTheme } = useTheme();
+
   return (
-    <header className="flex h-16 items-center justify-between border-b border-white/5 bg-[#0a0a0a]/80 px-4 backdrop-blur md:px-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" className="lg:hidden text-white/60">
+    <header className="flex h-14 items-center justify-between border-b bg-card px-4 md:px-6">
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" className="lg:hidden">
           <Menu className="h-5 w-5" />
         </Button>
         <div className="relative hidden md:block">
-          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
-            placeholder="بحث عن مريض، موعد..."
-            className="h-9 w-64 rounded-full border border-white/10 bg-white/5 pr-10 pl-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-amber-500/40"
+            placeholder="بحث عن مريض، موعد، فاتورة..."
+            className="h-9 w-72 rounded-lg border bg-background pr-10 pl-3 text-sm outline-none focus:ring-2 focus:ring-[hsl(var(--teal))]/30"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative text-white/60">
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-1.5 left-1.5 h-2 w-2 rounded-full bg-amber-400" />
+      <div className="flex items-center gap-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        >
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition dark:rotate-0 dark:scale-100" />
         </Button>
-
-        <div className="mr-2 flex items-center gap-3 border-r border-white/10 pr-4">
+        <Button variant="ghost" size="icon" className="relative">
+          <Bell className="h-4 w-4" />
+          <span className="absolute left-2 top-2 h-1.5 w-1.5 rounded-full bg-[hsl(var(--teal))]" />
+        </Button>
+        <div className="mr-2 flex items-center gap-2.5 border-r pr-3">
           <div className="hidden text-left sm:block">
-            <p className="text-sm font-medium text-white">مدير العيادة</p>
-            <p className="text-xs text-white/40">clinic_admin</p>
+            <p className="text-sm font-medium">مدير العيادة</p>
+            <p className="text-[11px] text-muted-foreground">clinic_admin</p>
           </div>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full gold-gradient text-sm font-bold text-black">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[hsl(var(--primary))] text-xs font-semibold text-white">
             م
           </div>
         </div>

@@ -6,34 +6,72 @@ import {
   LayoutDashboard,
   Users,
   Calendar,
-  Stethoscope,
-  FileText,
-  Wallet,
-  Package,
-  BarChart3,
-  Settings,
+  CalendarDays,
+  FolderOpen,
   Smile,
   ClipboardList,
-  LogOut,
+  Stethoscope,
+  UserRound,
   UserCog,
+  FileText,
+  CreditCard,
+  Wallet,
+  Receipt,
+  Package,
+  FlaskConical,
+  BarChart3,
+  Bell,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 
-const navigation = [
-  { name: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
-  { name: "المرضى", href: "/patients", icon: Users },
-  { name: "المواعيد", href: "/appointments", icon: Calendar },
-  { name: "المخطط السني", href: "/dental-chart", icon: Smile },
-  { name: "الخطط العلاجية", href: "/treatment-plans", icon: ClipboardList },
-  { name: "العلاجات", href: "/treatments", icon: Stethoscope },
-  { name: "الفواتير", href: "/invoices", icon: FileText },
-  { name: "المحاسبة", href: "/accounting", icon: Wallet },
-  { name: "المخزون", href: "/inventory", icon: Package },
-  { name: "التقارير", href: "/reports", icon: BarChart3 },
-  { name: "الحسابات", href: "/users", icon: UserCog },
-  { name: "الإعدادات", href: "/settings", icon: Settings },
+const groups = [
+  {
+    label: "الرئيسية",
+    items: [
+      { name: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
+    ],
+  },
+  {
+    label: "العيادة",
+    items: [
+      { name: "المرضى", href: "/patients", icon: Users },
+      { name: "المواعيد", href: "/appointments", icon: Calendar },
+      { name: "التقويم", href: "/calendar", icon: CalendarDays },
+      { name: "الملفات الطبية", href: "/records", icon: FolderOpen },
+      { name: "المخطط السني", href: "/dental-chart", icon: Smile },
+      { name: "الخطط العلاجية", href: "/treatment-plans", icon: ClipboardList },
+      { name: "الخدمات", href: "/treatments", icon: Stethoscope },
+    ],
+  },
+  {
+    label: "الفريق",
+    items: [
+      { name: "الأطباء", href: "/doctors", icon: UserRound },
+      { name: "الموظفون", href: "/users", icon: UserCog },
+    ],
+  },
+  {
+    label: "المالية",
+    items: [
+      { name: "الفواتير", href: "/invoices", icon: FileText },
+      { name: "المدفوعات", href: "/payments", icon: CreditCard },
+      { name: "المحاسبة", href: "/finance", icon: Wallet },
+      { name: "المصاريف", href: "/expenses", icon: Receipt },
+    ],
+  },
+  {
+    label: "التشغيل",
+    items: [
+      { name: "المخزون", href: "/inventory", icon: Package },
+      { name: "المختبرات", href: "/labs", icon: FlaskConical },
+      { name: "التقارير", href: "/reports", icon: BarChart3 },
+      { name: "الإشعارات", href: "/notifications", icon: Bell },
+      { name: "الإعدادات", href: "/settings", icon: Settings },
+    ],
+  },
 ];
 
 export function Sidebar() {
@@ -48,48 +86,57 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex lg:w-64 lg:flex-col border-l border-white/5 bg-[#0a0a0a]">
-      <div className="flex h-16 items-center gap-3 border-b border-white/5 px-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl gold-gradient text-lg font-bold text-black">
+    <aside className="hidden w-64 shrink-0 flex-col border-l bg-[hsl(var(--sidebar))] text-[hsl(var(--sidebar-fg))] lg:flex">
+      <div className="flex h-16 items-center gap-3 border-b border-white/10 px-5">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[hsl(var(--teal))] text-sm font-bold text-white">
           D
         </div>
         <div>
-          <h1 className="font-bold leading-none tracking-tight text-white">DENTAL PRO</h1>
-          <p className="text-[11px] text-white/40">نظام إدارة العيادات</p>
+          <h1 className="text-sm font-bold leading-none text-white">DENTAL PRO</h1>
+          <p className="mt-0.5 text-[10px] text-white/50">إدارة عيادات الأسنان</p>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
-        {navigation.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(item.href + "/");
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
-                isActive
-                  ? "bg-amber-500/15 text-amber-300"
-                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
-              )}
-            >
-              <item.icon className={cn("h-4 w-4", isActive && "text-amber-400")} />
-              {item.name}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 space-y-4 overflow-y-auto p-3">
+        {groups.map((group) => (
+          <div key={group.label}>
+            <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/35">
+              {group.label}
+            </p>
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const active =
+                  pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors",
+                      active
+                        ? "bg-[hsl(var(--teal))] text-white"
+                        : "text-white/65 hover:bg-white/8 hover:text-white"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
-      <div className="border-t border-white/5 p-3">
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-3 text-white/40 hover:bg-red-500/10 hover:text-red-400"
+      <div className="border-t border-white/10 p-3">
+        <button
+          type="button"
           onClick={handleLogout}
+          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-white/50 transition hover:bg-white/8 hover:text-white"
         >
           <LogOut className="h-4 w-4" />
           تسجيل الخروج
-        </Button>
+        </button>
       </div>
     </aside>
   );

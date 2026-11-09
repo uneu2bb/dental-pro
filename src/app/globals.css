@@ -4,26 +4,54 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 40 20% 96%;
-    --card: 0 0% 7%;
-    --card-foreground: 40 20% 96%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 40 20% 96%;
-    --primary: 43 74% 49%;
-    --primary-foreground: 0 0% 6%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 40 20% 90%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 40 8% 55%;
-    --accent: 43 40% 18%;
-    --accent-foreground: 43 80% 70%;
+    --background: 200 29% 97%;
+    --foreground: 200 22% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 200 22% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 22% 18%;
+    --primary: 205 59% 18%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 178 40% 94%;
+    --secondary-foreground: 205 59% 18%;
+    --muted: 200 20% 94%;
+    --muted-foreground: 200 12% 42%;
+    --accent: 179 76% 35%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 40 15% 16%;
-    --input: 40 15% 16%;
-    --ring: 43 74% 49%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 18% 88%;
+    --input: 200 18% 88%;
+    --ring: 179 76% 35%;
     --radius: 0.75rem;
+    --sidebar: 205 59% 18%;
+    --sidebar-fg: 200 20% 92%;
+    --teal: 179 76% 35%;
+    --mint: 168 33% 94%;
+  }
+
+  .dark {
+    --background: 205 40% 8%;
+    --foreground: 200 20% 95%;
+    --card: 205 35% 11%;
+    --card-foreground: 200 20% 95%;
+    --popover: 205 35% 11%;
+    --popover-foreground: 200 20% 95%;
+    --primary: 179 76% 40%;
+    --primary-foreground: 205 59% 10%;
+    --secondary: 205 30% 16%;
+    --secondary-foreground: 200 20% 90%;
+    --muted: 205 25% 16%;
+    --muted-foreground: 200 12% 60%;
+    --accent: 179 76% 35%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 205 25% 18%;
+    --input: 205 25% 18%;
+    --ring: 179 76% 40%;
+    --sidebar: 205 50% 10%;
+    --sidebar-fg: 200 15% 85%;
   }
 
   * {
@@ -32,27 +60,14 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-image:
-      linear-gradient(rgba(201, 162, 39, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201, 162, 39, 0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
   }
 }
 
 @layer utilities {
-  .gold-gradient {
-    background: linear-gradient(135deg, #f0d78c 0%, #c9a227 45%, #a67c00 100%);
+  .medical-card {
+    @apply rounded-xl border border-border bg-card shadow-sm;
   }
-  .gold-text {
-    background: linear-gradient(135deg, #fff6d6 0%, #e8c547 40%, #c9a227 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .gold-border {
-    border-color: rgba(201, 162, 39, 0.35);
-  }
-  .glass-card {
-    @apply rounded-2xl border border-[rgba(201,162,39,0.25)] bg-[rgba(12,12,12,0.85)] backdrop-blur-xl shadow-[0_0_40px_rgba(201,162,39,0.06)];
+  .stat-value {
+    @apply text-2xl font-bold tracking-tight text-foreground;
   }
 }
